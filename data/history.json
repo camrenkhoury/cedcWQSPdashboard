@@ -1,0 +1,962 @@
+[
+  {
+    "timestamp": "2025-01-01T01:23:00",
+    "ph": 6.889697991,
+    "turbidity": 1.878075738,
+    "temperature": 23.2234364,
+    "tds": 296.1830915,
+    "conductivity": 743.5053475
+  },
+  {
+    "timestamp": "2025-01-01T01:24:00",
+    "ph": 6.796346935,
+    "turbidity": 1.529807677,
+    "temperature": 18.94468048,
+    "tds": 299.7117969,
+    "conductivity": 482.1015809
+  },
+  {
+    "timestamp": "2025-01-01T01:25:00",
+    "ph": 7.160157515,
+    "turbidity": 1.897891548,
+    "temperature": 23.78249608,
+    "tds": 207.3308249,
+    "conductivity": 400.315057
+  },
+  {
+    "timestamp": "2025-01-01T01:26:00",
+    "ph": 7.23670239,
+    "turbidity": 3.598482541,
+    "temperature": 21.3991865,
+    "tds": 420.2718641,
+    "conductivity": 324.569194
+  },
+  {
+    "timestamp": "2025-01-01T01:27:00",
+    "ph": 7.850468336,
+    "turbidity": 2.894501332,
+    "temperature": 21.06294798,
+    "tds": 370.1889832,
+    "conductivity": 676.198699
+  },
+  {
+    "timestamp": "2025-01-01T01:28:00",
+    "ph": 7.480169535,
+    "turbidity": 1.864287755,
+    "temperature": 23.77739992,
+    "tds": 282.3228661,
+    "conductivity": 434.4950091
+  },
+  {
+    "timestamp": "2025-01-01T01:29:00",
+    "ph": 6.869238538,
+    "turbidity": 3.11592092,
+    "temperature": 23.11065828,
+    "tds": 302.1508671,
+    "conductivity": 277.0664111
+  },
+  {
+    "timestamp": "2025-01-01T01:30:00",
+    "ph": 6.740634131,
+    "turbidity": 2.616493059,
+    "temperature": 21.09758459,
+    "tds": 316.6706246,
+    "conductivity": 658.2867907
+  },
+  {
+    "timestamp": "2025-01-01T01:31:00",
+    "ph": 7.296767669,
+    "turbidity": 3.662373989,
+    "temperature": 24.89832451,
+    "tds": 136.6612105,
+    "conductivity": 973.9499276
+  },
+  {
+    "timestamp": "2025-01-01T01:32:00",
+    "ph": 6.571906717,
+    "turbidity": 1.657536287,
+    "temperature": 19.29734168,
+    "tds": 280.2258094,
+    "conductivity": 599.0893633
+  },
+  {
+    "timestamp": "2025-01-01T01:33:00",
+    "ph": 7.832583506,
+    "turbidity": 2.106805424,
+    "temperature": 23.53983902,
+    "tds": 245.4412602,
+    "conductivity": 725.7736162
+  },
+  {
+    "timestamp": "2025-01-01T01:34:00",
+    "ph": 7.571776048,
+    "turbidity": 2.029470216,
+    "temperature": 23.48275314,
+    "tds": 219.8703992,
+    "conductivity": 612.2744038
+  },
+  {
+    "timestamp": "2025-01-01T01:35:00",
+    "ph": 6.912329739,
+    "turbidity": 0.743782062,
+    "temperature": 21.2261339,
+    "tds": 277.5119766,
+    "conductivity": 585.166552
+  },
+  {
+    "timestamp": "2025-01-01T01:36:00",
+    "ph": 6.414746188,
+    "turbidity": 2.855344332,
+    "temperature": 22.81533256,
+    "tds": 443.8149221,
+    "conductivity": 737.8614724
+  },
+  {
+    "timestamp": "2025-01-01T01:37:00",
+    "ph": 7.64154895,
+    "turbidity": 2.813266327,
+    "temperature": 18.87221606,
+    "tds": 351.2674289,
+    "conductivity": 556.4588184
+  },
+  {
+    "timestamp": "2025-01-01T01:38:00",
+    "ph": 7.054184062,
+    "turbidity": 2.506136148,
+    "temperature": 24.31006755,
+    "tds": 254.3056808,
+    "conductivity": 640.1088471
+  },
+  {
+    "timestamp": "2025-01-01T01:39:00",
+    "ph": 7.595126525,
+    "turbidity": 2.21849544,
+    "temperature": 21.53774466,
+    "tds": 345.8066225,
+    "conductivity": 648.2546709
+  },
+  {
+    "timestamp": "2025-01-01T01:40:00",
+    "ph": 6.462228936,
+    "turbidity": 0.80155511,
+    "temperature": 20.69319245,
+    "tds": 411.9484349,
+    "conductivity": 499.786432
+  },
+  {
+    "timestamp": "2025-01-01T01:41:00",
+    "ph": 6.860249991,
+    "turbidity": 1.995225613,
+    "temperature": 24.62252306,
+    "tds": 373.9706946,
+    "conductivity": 748.8063524
+  },
+  {
+    "timestamp": "2025-01-01T01:42:00",
+    "ph": 7.10209748,
+    "turbidity": 2.08874258,
+    "temperature": 20.23914077,
+    "tds": 304.7704296,
+    "conductivity": 573.7560365
+  },
+  {
+    "timestamp": "2025-01-01T01:43:00",
+    "ph": 7.118792238,
+    "turbidity": 1.537267277,
+    "temperature": 18.47884676,
+    "tds": 248.2450578,
+    "conductivity": 486.6382261
+  },
+  {
+    "timestamp": "2025-01-01T01:44:00",
+    "ph": 6.919973811,
+    "turbidity": 2.306457146,
+    "temperature": 18.10842707,
+    "tds": 355.8578651,
+    "conductivity": 680.4764765
+  },
+  {
+    "timestamp": "2025-01-01T01:45:00",
+    "ph": 7.349139973,
+    "turbidity": 2.984861028,
+    "temperature": 23.51502488,
+    "tds": 331.4788308,
+    "conductivity": 465.2298027
+  },
+  {
+    "timestamp": "2025-01-01T01:46:00",
+    "ph": 6.672951828,
+    "turbidity": 4.763423081,
+    "temperature": 18.79892662,
+    "tds": 371.6154576,
+    "conductivity": 604.2271736
+  },
+  {
+    "timestamp": "2025-01-01T01:47:00",
+    "ph": 7.043048206,
+    "turbidity": 2.709493375,
+    "temperature": 26.38698545,
+    "tds": 350.8137441,
+    "conductivity": 598.6321505
+  },
+  {
+    "timestamp": "2025-01-01T01:48:00",
+    "ph": 7.148118253,
+    "turbidity": 2.809060469,
+    "temperature": 16.79517648,
+    "tds": 383.9642172,
+    "conductivity": 762.8843349
+  },
+  {
+    "timestamp": "2025-01-01T01:49:00",
+    "ph": 7.305775534,
+    "turbidity": 2.410664901,
+    "temperature": 26.24114092,
+    "tds": 257.1811831,
+    "conductivity": 671.2047349
+  },
+  {
+    "timestamp": "2025-01-01T01:50:00",
+    "ph": 7.384645951,
+    "turbidity": 0.197474542,
+    "temperature": 22.52754367,
+    "tds": 405.3915253,
+    "conductivity": 596.2459562
+  },
+  {
+    "timestamp": "2025-01-01T01:51:00",
+    "ph": 6.650143163,
+    "turbidity": 2.468183349,
+    "temperature": 21.75821722,
+    "tds": 315.8079684,
+    "conductivity": 722.6649449
+  },
+  {
+    "timestamp": "2025-01-01T01:52:00",
+    "ph": 6.486354332,
+    "turbidity": 2.572276252,
+    "temperature": 20.63770228,
+    "tds": 466.0208698,
+    "conductivity": 808.5311324
+  },
+  {
+    "timestamp": "2025-01-01T01:53:00",
+    "ph": 7.611070729,
+    "turbidity": 5.455890535,
+    "temperature": 22.99784029,
+    "tds": 244.8649746,
+    "conductivity": 683.671546
+  },
+  {
+    "timestamp": "2025-01-01T01:54:00",
+    "ph": 7.232925605,
+    "turbidity": 2.269166842,
+    "temperature": 21.90591324,
+    "tds": 438.8771043,
+    "conductivity": 601.552893
+  },
+  {
+    "timestamp": "2025-01-01T01:55:00",
+    "ph": 6.800605385,
+    "turbidity": 2.861856811,
+    "temperature": 24.75825471,
+    "tds": 315.8328627,
+    "conductivity": 403.2245651
+  },
+  {
+    "timestamp": "2025-01-01T01:56:00",
+    "ph": 7.72046079,
+    "turbidity": 2.458345876,
+    "temperature": 22.28556912,
+    "tds": 247.8865597,
+    "conductivity": 440.2329505
+  },
+  {
+    "timestamp": "2025-01-01T01:57:00",
+    "ph": 7.146269854,
+    "turbidity": 1.097586355,
+    "temperature": 22.3757544,
+    "tds": 261.2891333,
+    "conductivity": 554.2162943
+  },
+  {
+    "timestamp": "2025-01-01T01:58:00",
+    "ph": 7.571718874,
+    "turbidity": 3.871387377,
+    "temperature": 21.09096947,
+    "tds": 274.3722153,
+    "conductivity": 508.5731697
+  },
+  {
+    "timestamp": "2025-01-01T01:59:00",
+    "ph": 7.127007393,
+    "turbidity": 3.402319639,
+    "temperature": 21.85763594,
+    "tds": 333.9332757,
+    "conductivity": 571.9543046
+  },
+  {
+    "timestamp": "2025-01-01T02:00:00",
+    "ph": 7.92429917,
+    "turbidity": 3.449238336,
+    "temperature": 22.76950442,
+    "tds": 341.826839,
+    "conductivity": 608.4974887
+  },
+  {
+    "timestamp": "2025-01-01T02:01:00",
+    "ph": 7.802136337,
+    "turbidity": 1.408735054,
+    "temperature": 17.72457902,
+    "tds": 254.1039997,
+    "conductivity": 679.4539132
+  },
+  {
+    "timestamp": "2025-01-01T02:02:00",
+    "ph": 7.000414341,
+    "turbidity": 4.183353173,
+    "temperature": 18.62953644,
+    "tds": 298.0516326,
+    "conductivity": 589.4251833
+  },
+  {
+    "timestamp": "2025-01-01T02:03:00",
+    "ph": 7.48862838,
+    "turbidity": 0.817778725,
+    "temperature": 23.85816024,
+    "tds": 471.3816287,
+    "conductivity": 672.9752466
+  },
+  {
+    "timestamp": "2025-01-01T02:04:00",
+    "ph": 7.35815038,
+    "turbidity": 3.204228513,
+    "temperature": 22.4271636,
+    "tds": 438.2034536,
+    "conductivity": 609.6711622
+  },
+  {
+    "timestamp": "2025-01-01T02:05:00",
+    "ph": 7.647452623,
+    "turbidity": 5.128546751,
+    "temperature": 21.54004166,
+    "tds": 334.9058936,
+    "conductivity": 303.680015
+  },
+  {
+    "timestamp": "2025-01-01T02:06:00",
+    "ph": 6.714030616,
+    "turbidity": 1.31135641,
+    "temperature": 22.04608483,
+    "tds": 303.0402783,
+    "conductivity": 459.0996909
+  },
+  {
+    "timestamp": "2025-01-01T02:07:00",
+    "ph": 7.374420584,
+    "turbidity": 1.820442724,
+    "temperature": 22.86895426,
+    "tds": 309.6025061,
+    "conductivity": 578.3868666
+  },
+  {
+    "timestamp": "2025-01-01T02:08:00",
+    "ph": 7.523369795,
+    "turbidity": 2.619581638,
+    "temperature": 20.6506008,
+    "tds": 349.0814378,
+    "conductivity": 418.5457886
+  },
+  {
+    "timestamp": "2025-01-01T02:09:00",
+    "ph": 6.396504205,
+    "turbidity": 1.895829215,
+    "temperature": 20.05423819,
+    "tds": 218.1765948,
+    "conductivity": 689.9893095
+  },
+  {
+    "timestamp": "2025-01-01T02:10:00",
+    "ph": 6.626696595,
+    "turbidity": 0.639203883,
+    "temperature": 22.48961314,
+    "tds": 279.409877,
+    "conductivity": 829.6126249
+  },
+  {
+    "timestamp": "2025-01-01T02:11:00",
+    "ph": 6.284307129,
+    "turbidity": 2.58227557,
+    "temperature": 19.55406806,
+    "tds": 166.5132741,
+    "conductivity": 782.8142778
+  },
+  {
+    "timestamp": "2025-01-01T02:12:00",
+    "ph": 6.992237266,
+    "turbidity": 1.225235544,
+    "temperature": 23.02063189,
+    "tds": 331.9378498,
+    "conductivity": 567.9835694
+  },
+  {
+    "timestamp": "2025-01-01T02:13:00",
+    "ph": 7.387016902,
+    "turbidity": 3.068310917,
+    "temperature": 17.74354099,
+    "tds": 351.7756752,
+    "conductivity": 823.6089205
+  },
+  {
+    "timestamp": "2025-01-01T02:14:00",
+    "ph": 7.700942821,
+    "turbidity": 1.396690919,
+    "temperature": 24.57288909,
+    "tds": 261.345083,
+    "conductivity": 622.3001186
+  },
+  {
+    "timestamp": "2025-01-01T02:15:00",
+    "ph": 7.129637912,
+    "turbidity": 4.359921286,
+    "temperature": 23.18149371,
+    "tds": 425.9189411,
+    "conductivity": 549.4371043
+  },
+  {
+    "timestamp": "2025-01-01T02:16:00",
+    "ph": 7.751446218,
+    "turbidity": 1.560096049,
+    "temperature": 22.64007434,
+    "tds": 201.938747,
+    "conductivity": 507.9896005
+  },
+  {
+    "timestamp": "2025-01-01T02:17:00",
+    "ph": 6.547959417,
+    "turbidity": 2.113526181,
+    "temperature": 24.45672746,
+    "tds": 182.8500096,
+    "conductivity": 554.629547
+  },
+  {
+    "timestamp": "2025-01-01T02:18:00",
+    "ph": 6.418647024,
+    "turbidity": 3.476220661,
+    "temperature": 26.16368611,
+    "tds": 317.9561455,
+    "conductivity": 541.7734772
+  },
+  {
+    "timestamp": "2025-01-01T02:19:00",
+    "ph": 7.07778092,
+    "turbidity": 1.02296282,
+    "temperature": 24.53592516,
+    "tds": 383.7678642,
+    "conductivity": 625.5624334
+  },
+  {
+    "timestamp": "2025-01-01T02:20:00",
+    "ph": 7.25362618,
+    "turbidity": 2.772951922,
+    "temperature": 17.39781442,
+    "tds": 434.7142153,
+    "conductivity": 624.0860972
+  },
+  {
+    "timestamp": "2025-01-01T02:21:00",
+    "ph": 7.086922101,
+    "turbidity": 4.068571305,
+    "temperature": 18.80105758,
+    "tds": 263.289259,
+    "conductivity": 600.456903
+  },
+  {
+    "timestamp": "2025-01-01T02:22:00",
+    "ph": 6.27302316,
+    "turbidity": 0.571020119,
+    "temperature": 20.43795356,
+    "tds": 386.2944667,
+    "conductivity": 665.5407255
+  },
+  {
+    "timestamp": "2025-01-01T02:23:00",
+    "ph": 7.064351984,
+    "turbidity": 2.72156063,
+    "temperature": 22.06522763,
+    "tds": 296.9193224,
+    "conductivity": 778.5969412
+  },
+  {
+    "timestamp": "2025-01-01T02:24:00",
+    "ph": 6.5782122,
+    "turbidity": 2.811859353,
+    "temperature": 23.29414755,
+    "tds": 286.189816,
+    "conductivity": 742.4331203
+  },
+  {
+    "timestamp": "2025-01-01T02:25:00",
+    "ph": 7.36786902,
+    "turbidity": 3.438187446,
+    "temperature": 20.18564047,
+    "tds": 370.692795,
+    "conductivity": 377.2653047
+  },
+  {
+    "timestamp": "2025-01-01T02:26:00",
+    "ph": 7.246639298,
+    "turbidity": 1.015659147,
+    "temperature": 22.46691691,
+    "tds": 352.1858303,
+    "conductivity": 216.9118298
+  },
+  {
+    "timestamp": "2025-01-01T02:27:00",
+    "ph": 6.724048085,
+    "turbidity": 0.915452064,
+    "temperature": 20.11154267,
+    "tds": 173.8886274,
+    "conductivity": 740.1479867
+  },
+  {
+    "timestamp": "2025-01-01T02:28:00",
+    "ph": 6.894453233,
+    "turbidity": 3.126329879,
+    "temperature": 20.47120549,
+    "tds": 418.123228,
+    "conductivity": 394.9681952
+  },
+  {
+    "timestamp": "2025-01-01T02:29:00",
+    "ph": 6.676314591,
+    "turbidity": 2.856381608,
+    "temperature": 18.48334726,
+    "tds": 410.4073083,
+    "conductivity": 566.2851897
+  },
+  {
+    "timestamp": "2025-01-01T02:30:00",
+    "ph": 7.074928361,
+    "turbidity": 2.80059142,
+    "temperature": 19.69191688,
+    "tds": 249.9549839,
+    "conductivity": 424.4830461
+  },
+  {
+    "timestamp": "2025-01-01T02:31:00",
+    "ph": 7.482056928,
+    "turbidity": 2.915737851,
+    "temperature": 18.62078849,
+    "tds": 331.6642827,
+    "conductivity": 329.7029344
+  },
+  {
+    "timestamp": "2025-01-01T02:32:00",
+    "ph": 6.705709581,
+    "turbidity": 1.683970334,
+    "temperature": 19.56031687,
+    "tds": 339.5224149,
+    "conductivity": 681.2194092
+  },
+  {
+    "timestamp": "2025-01-01T02:33:00",
+    "ph": 7.301618606,
+    "turbidity": 2.778704437,
+    "temperature": 24.63410449,
+    "tds": 320.8539013,
+    "conductivity": 713.873274
+  },
+  {
+    "timestamp": "2025-01-01T02:34:00",
+    "ph": 6.887896953,
+    "turbidity": 2.851686968,
+    "temperature": 19.62650278,
+    "tds": 255.9755877,
+    "conductivity": 513.5234399
+  },
+  {
+    "timestamp": "2025-01-01T02:35:00",
+    "ph": 6.782850867,
+    "turbidity": 1.642778298,
+    "temperature": 28.58095516,
+    "tds": 246.2701306,
+    "conductivity": 211.3436562
+  },
+  {
+    "timestamp": "2025-01-01T02:36:00",
+    "ph": 7.057187856,
+    "turbidity": 4.738929413,
+    "temperature": 23.23329475,
+    "tds": 297.9556743,
+    "conductivity": 518.0633328
+  },
+  {
+    "timestamp": "2025-01-01T02:37:00",
+    "ph": 6.685903071,
+    "turbidity": 3.068599505,
+    "temperature": 22.46209031,
+    "tds": 393.8183215,
+    "conductivity": 658.7706008
+  },
+  {
+    "timestamp": "2025-01-01T02:38:00",
+    "ph": 6.878540278,
+    "turbidity": 1.070435803,
+    "temperature": 19.85410555,
+    "tds": 343.4880124,
+    "conductivity": 378.1632647
+  },
+  {
+    "timestamp": "2025-01-01T02:39:00",
+    "ph": 6.620848843,
+    "turbidity": 3.28786433,
+    "temperature": 23.7507747,
+    "tds": 270.3508534,
+    "conductivity": 627.503988
+  },
+  {
+    "timestamp": "2025-01-01T02:40:00",
+    "ph": 7.885890053,
+    "turbidity": 1.330381996,
+    "temperature": 20.56090543,
+    "tds": 361.7358969,
+    "conductivity": 597.7035226
+  },
+  {
+    "timestamp": "2025-01-01T02:41:00",
+    "ph": 7.114105421,
+    "turbidity": 3.444501524,
+    "temperature": 22.30502454,
+    "tds": 72.11659035,
+    "conductivity": 686.8937249
+  },
+  {
+    "timestamp": "2025-01-01T02:42:00",
+    "ph": 6.820109797,
+    "turbidity": 3.890314695,
+    "temperature": 28.40021135,
+    "tds": 391.901256,
+    "conductivity": 617.9370553
+  },
+  {
+    "timestamp": "2025-01-01T02:43:00",
+    "ph": 7.185591964,
+    "turbidity": 1.515181218,
+    "temperature": 21.75985025,
+    "tds": 160.8228977,
+    "conductivity": 454.0396589
+  },
+  {
+    "timestamp": "2025-01-01T02:44:00",
+    "ph": 7.05506878,
+    "turbidity": 3.656051355,
+    "temperature": 24.87318332,
+    "tds": 271.0047247,
+    "conductivity": 779.4857252
+  },
+  {
+    "timestamp": "2025-01-01T02:45:00",
+    "ph": 7.01161216,
+    "turbidity": 2.995337112,
+    "temperature": 20.24205894,
+    "tds": 210.4264084,
+    "conductivity": 576.220564
+  },
+  {
+    "timestamp": "2025-01-01T02:46:00",
+    "ph": 7.34566668,
+    "turbidity": 3.486472192,
+    "temperature": 21.91252877,
+    "tds": 196.4254819,
+    "conductivity": 595.9043191
+  },
+  {
+    "timestamp": "2025-01-01T02:47:00",
+    "ph": 7.403003084,
+    "turbidity": 4.776151579,
+    "temperature": 26.42700159,
+    "tds": 392.866143,
+    "conductivity": 460.0098061
+  },
+  {
+    "timestamp": "2025-01-01T02:48:00",
+    "ph": 6.887799541,
+    "turbidity": 2.205534261,
+    "temperature": 20.43258236,
+    "tds": 262.5839039,
+    "conductivity": 533.5076623
+  },
+  {
+    "timestamp": "2025-01-01T02:49:00",
+    "ph": 6.869672704,
+    "turbidity": 1.595516603,
+    "temperature": 26.53112139,
+    "tds": 327.7203105,
+    "conductivity": 467.2795929
+  },
+  {
+    "timestamp": "2025-01-01T02:50:00",
+    "ph": 6.989979321,
+    "turbidity": 1.432582684,
+    "temperature": 23.76937984,
+    "tds": 296.2463537,
+    "conductivity": 574.058091
+  },
+  {
+    "timestamp": "2025-01-01T02:51:00",
+    "ph": 6.179231534,
+    "turbidity": 1.521027658,
+    "temperature": 20.59383306,
+    "tds": 338.1632662,
+    "conductivity": 856.756272
+  },
+  {
+    "timestamp": "2025-01-01T02:52:00",
+    "ph": 6.493923575,
+    "turbidity": 2.407477949,
+    "temperature": 23.58101935,
+    "tds": 306.1457513,
+    "conductivity": 394.2148286
+  },
+  {
+    "timestamp": "2025-01-01T02:53:00",
+    "ph": 7.646749707,
+    "turbidity": 2.90938237,
+    "temperature": 24.43138612,
+    "tds": 197.3606221,
+    "conductivity": 357.9657903
+  },
+  {
+    "timestamp": "2025-01-01T02:54:00",
+    "ph": 7.757987085,
+    "turbidity": 2.832028959,
+    "temperature": 23.55452491,
+    "tds": 379.7013456,
+    "conductivity": 820.6755491
+  },
+  {
+    "timestamp": "2025-01-01T02:55:00",
+    "ph": 7.000385584,
+    "turbidity": 3.492619899,
+    "temperature": 18.0744382,
+    "tds": 260.4994733,
+    "conductivity": 568.6014484
+  },
+  {
+    "timestamp": "2025-01-01T02:56:00",
+    "ph": 7.330622785,
+    "turbidity": 2.51560227,
+    "temperature": 20.18215706,
+    "tds": 175.4734481,
+    "conductivity": 499.6390892
+  },
+  {
+    "timestamp": "2025-01-01T02:57:00",
+    "ph": 7.224500062,
+    "turbidity": 4.244240893,
+    "temperature": 21.38120341,
+    "tds": 265.7507871,
+    "conductivity": 755.9857031
+  },
+  {
+    "timestamp": "2025-01-01T02:58:00",
+    "ph": 8.331552323,
+    "turbidity": 2.1824118,
+    "temperature": 21.81391643,
+    "tds": 420.0607833,
+    "conductivity": 509.157669
+  },
+  {
+    "timestamp": "2025-01-01T02:59:00",
+    "ph": 7.547829965,
+    "turbidity": 5.764203,
+    "temperature": 23.55168024,
+    "tds": 368.0177394,
+    "conductivity": 873.901457
+  },
+  {
+    "timestamp": "2025-01-01T03:00:00",
+    "ph": 7.048832963,
+    "turbidity": 3.250800817,
+    "temperature": 22.4442525,
+    "tds": 272.1078292,
+    "conductivity": 701.6888807
+  },
+  {
+    "timestamp": "2025-01-01T03:01:00",
+    "ph": 6.717783824,
+    "turbidity": 1.471410932,
+    "temperature": 18.6616391,
+    "tds": 272.0593837,
+    "conductivity": 526.8132888
+  },
+  {
+    "timestamp": "2025-01-01T03:02:00",
+    "ph": 6.457421472,
+    "turbidity": 1.214929002,
+    "temperature": 22.95049463,
+    "tds": 274.2691959,
+    "conductivity": 923.596232
+  },
+  {
+    "timestamp": "2025-01-01T03:03:00",
+    "ph": 7.181385454,
+    "turbidity": 3.078966898,
+    "temperature": 23.52646436,
+    "tds": 466.1398387,
+    "conductivity": 509.1427615
+  },
+  {
+    "timestamp": "2025-01-01T03:04:00",
+    "ph": 6.797459702,
+    "turbidity": 2.231844658,
+    "temperature": 23.39947612,
+    "tds": 330.5548362,
+    "conductivity": 711.3143058
+  },
+  {
+    "timestamp": "2025-01-01T03:05:00",
+    "ph": 6.531098516,
+    "turbidity": 3.356800593,
+    "temperature": 24.70195181,
+    "tds": 334.4033318,
+    "conductivity": 644.8938871
+  },
+  {
+    "timestamp": "2025-01-01T03:06:00",
+    "ph": 6.841370846,
+    "turbidity": 3.067885149,
+    "temperature": 24.08480539,
+    "tds": 382.4226763,
+    "conductivity": 795.2611934
+  },
+  {
+    "timestamp": "2025-01-01T03:07:00",
+    "ph": 6.667380799,
+    "turbidity": 2.412605305,
+    "temperature": 23.1479502,
+    "tds": 319.1031327,
+    "conductivity": 834.2266795
+  },
+  {
+    "timestamp": "2025-01-01T03:08:00",
+    "ph": 7.774856654,
+    "turbidity": 1.483847538,
+    "temperature": 21.82458572,
+    "tds": 279.2766283,
+    "conductivity": 604.8006224
+  },
+  {
+    "timestamp": "2025-01-01T03:09:00",
+    "ph": 7.452655903,
+    "turbidity": 0.68218333,
+    "temperature": 17.84759767,
+    "tds": 284.2920121,
+    "conductivity": 486.9873194
+  },
+  {
+    "timestamp": "2025-01-01T03:10:00",
+    "ph": 7.096810943,
+    "turbidity": 1.964182058,
+    "temperature": 23.07404555,
+    "tds": 294.2718992,
+    "conductivity": 668.9958214
+  },
+  {
+    "timestamp": "2025-01-01T03:11:00",
+    "ph": 7.691977656,
+    "turbidity": 3.527678553,
+    "temperature": 22.51921922,
+    "tds": 297.0222211,
+    "conductivity": 498.3426945
+  },
+  {
+    "timestamp": "2025-01-01T03:12:00",
+    "ph": 7.130947323,
+    "turbidity": 2.756912493,
+    "temperature": 22.67894709,
+    "tds": 358.2103635,
+    "conductivity": 902.0080871
+  },
+  {
+    "timestamp": "2025-01-01T03:13:00",
+    "ph": 6.755486319,
+    "turbidity": 1.005113466,
+    "temperature": 18.80812856,
+    "tds": 304.1556709,
+    "conductivity": 620.4802997
+  },
+  {
+    "timestamp": "2025-01-01T03:14:00",
+    "ph": 7.709249631,
+    "turbidity": 2.707817111,
+    "temperature": 19.29735865,
+    "tds": 358.6112062,
+    "conductivity": 545.2017673
+  },
+  {
+    "timestamp": "2025-01-01T03:15:00",
+    "ph": 7.315564017,
+    "turbidity": 2.962380856,
+    "temperature": 24.63288213,
+    "tds": 293.5426736,
+    "conductivity": 627.7020459
+  },
+  {
+    "timestamp": "2025-01-01T03:16:00",
+    "ph": 6.685101538,
+    "turbidity": 1.439371077,
+    "temperature": 21.90111212,
+    "tds": 306.2908152,
+    "conductivity": 397.9310566
+  },
+  {
+    "timestamp": "2025-01-01T03:17:00",
+    "ph": 7.023864529,
+    "turbidity": 2.684470127,
+    "temperature": 23.70375174,
+    "tds": 140.1439452,
+    "conductivity": 454.2578942
+  },
+  {
+    "timestamp": "2025-01-01T03:18:00",
+    "ph": 6.749752699,
+    "turbidity": 2.569850462,
+    "temperature": 22.07079594,
+    "tds": 373.306214,
+    "conductivity": 780.0620862
+  },
+  {
+    "timestamp": "2025-01-01T03:19:00",
+    "ph": 6.546880108,
+    "turbidity": 1.128435643,
+    "temperature": 22.07439035,
+    "tds": 327.7190781,
+    "conductivity": 501.4658582
+  },
+  {
+    "timestamp": "2025-01-01T03:20:00",
+    "ph": 7.470471019,
+    "turbidity": 2.929344832,
+    "temperature": 24.34570951,
+    "tds": 379.8408088,
+    "conductivity": 442.9633526
+  },
+  {
+    "timestamp": "2025-01-01T03:21:00",
+    "ph": 7.863766656,
+    "turbidity": 3.172941432,
+    "temperature": 20.70988818,
+    "tds": 68.29956974,
+    "conductivity": 680.4979129
+  },
+  {
+    "timestamp": "2025-01-01T03:22:00",
+    "ph": 6.54057297,
+    "turbidity": 3.799661492,
+    "temperature": 22.24030194,
+    "tds": 467.0699764,
+    "conductivity": 777.8556232
+  }
+]

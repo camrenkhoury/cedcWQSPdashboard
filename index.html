@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Quality Sensor Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Water Quality Sensor Dashboard</h1>
+    <p>Live simulated readings for five key parameters</p>
+  </header>
+
+  <!-- Fixed Summary Bar -->
+  <div id="summary-bar">
+    <div class="summary-item"><strong>Overall Quality:</strong> <span id="overall-quality">--</span></div>
+    <div class="summary-item"><strong>Last Updated:</strong> <span id="last-updated">--</span></div>
+    <div class="summary-item"><strong>Data Points:</strong> <span id="data-count">--</span></div>
+    <div class="buttons">
+      <button id="info-btn">ℹ️ Info</button>
+      <button id="theme-btn">Toggle Theme (Dark)</button>
+    </div>
+  </div>
+
+  <!-- Sensor Data Cards -->
+  <section id="data-cards">
+    <div class="card">
+      <h2>pH</h2>
+      <p><span id="ph-val">--</span><span class="delta" id="ph-delta"></span></p>
+      <span class="trend" id="ph-trend"></span>
+      <span id="ph-status" class="status">--</span>
+    </div>
+
+    <div class="card">
+      <h2>Turbidity (NTU)</h2>
+      <p><span id="turbidity-val">--</span><span class="delta" id="turbidity-delta"></span></p>
+      <span class="trend" id="turbidity-trend"></span>
+      <span id="turbidity-status" class="status">--</span>
+    </div>
+
+    <div class="card">
+      <h2>Temperature (°C)</h2>
+      <p><span id="temperature-val">--</span><span class="delta" id="temperature-delta"></span></p>
+      <span class="trend" id="temperature-trend"></span>
+      <span id="temp-status" class="status">--</span>
+    </div>
+
+    <div class="card">
+      <h2>TDS (ppm)</h2>
+      <p><span id="tds-val">--</span><span class="delta" id="tds-delta"></span></p>
+      <span class="trend" id="tds-trend"></span>
+      <span id="tds-status" class="status">--</span>
+    </div>
+
+    <div class="card">
+      <h2>Conductivity (µS/cm)</h2>
+      <p><span id="conductivity-val">--</span><span class="delta" id="conductivity-delta"></span></p>
+      <span class="trend" id="conductivity-trend"></span>
+      <span id="cond-status" class="status">--</span>
+    </div>
+  </section>
+
+  <!-- Charts Section -->
+  <section id="charts">
+    <div class="chart-box"><h3>Small Range Data (pH, Turbidity, Temperature)</h3><canvas id="smallChart"></canvas></div>
+    <div class="chart-box"><h3>Large Range Data (TDS, Conductivity)</h3><canvas id="largeChart"></canvas></div>
+    <div class="chart-box"><h3>Current vs Ideal %</h3><canvas id="barChart"></canvas></div>
+    <div class="chart-box"><h3>TDS vs Conductivity</h3><canvas id="scatterChart"></canvas></div>
+  </section>
+
+  <footer><p>ESP32 ➜ Excel ➜ JSON ➜ Dashboard • Updates every 10s</p></footer>
+
+  <!-- Info Modal -->
+  <div id="info-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Parameter Information</h2>
+      <ul>
+        <li><strong>pH:</strong> Measures water acidity or alkalinity (6.5–8.5 ideal)</li>
+        <li><strong>Turbidity:</strong> Clarity of water (0–5 NTU ideal)</li>
+        <li><strong>Temperature:</strong> Water temp for aquatic health (20–28°C ideal)</li>
+        <li><strong>TDS:</strong> Total dissolved solids (0–500 ppm ideal)</li>
+        <li><strong>Conductivity:</strong> Ionic content (0–1500 µS/cm ideal)</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
