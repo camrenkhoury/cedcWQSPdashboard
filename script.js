@@ -1,16 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const POLL_MS = 4000;
-  const MAX_POINTS = 30;
-  let prevData = {};
+  let POLL_MS = 4000;
+  const MAX_POINTS = 25;
   let history = [];
+  let prevData = {};
+  let pollInterval = null;
 
-  /* === THEME TOGGLE === */
+  // ✅ Persist session start & update count
+  let uptimeStart = parseInt(localStorage.getItem("uptimeStart")) || Date.now();
+  localStorage.setItem("uptimeStart", uptimeStart);
+  let totalUpdates = parseInt(localStorage.getItem("totalUpdates")) || 0;
+
+  let missed = 0;
+  let totalCadence = 0;
+  let uptimeTimer = null;
+
+  const themeBtn = document.getElementById("theme-btn");
+  const infoBtn = document.getElementById("info-btn");
+  const settingsBtn = document.getElementById("settings-btn");
+  const exportBtn = document.getElementById("export-btn");
+  const led = document.getElementById("status-led");
+  const statusText = document.getElementById("status-text");
+  const overallQualityEl = document.getElementById("overall-quality");
+
+  // === THEME TOGGLE ===
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "light") document.body.classList.add("light");
-  const themeBtn = document.getElementById("theme-btn");
-  themeBtn.textContent = document.body.classList.contains("light")
-    ? "Toggle Theme (Light)"
-    : "Toggle Theme (Dark)";
+
   themeBtn.addEventListener("click", () => {
     document.body.classList.toggle("light");
     const isLight = document.body.classList.contains("light");
@@ -21,114 +36,40 @@ document.addEventListener("DOMContentLoaded", () => {
     updateChartColors();
   });
 
-  /* === FETCH JSON === */
+  // === FETCH JSON ===
   const getJSON = async (url) => {
     try {
       const res = await fetch(`${url}?ts=${Date.now()}`);
       if (!res.ok) throw new Error();
       return await res.json();
     } catch {
-      console.warn(`⚠️ Could not load ${url}`);
       return null;
     }
   };
 
-  /* === UPDATE CARD WITH DELTA (▲/▼) === */
-  function updateCard(id, val, statusId, trendId, deltaId, good, fair) {
-    const valueEl = document.getElementById(id + "-val");
-    const st = document.getElementById(statusId);
-    const tr = document.getElementById(trendId);
-    const dl = document.getElementById(deltaId);
-    if (!valueEl || !st || !tr || !dl) return;
+  // === FORMAT TIME ===
+  function formatUptime(ms) {
+    let totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
 
-    const v = parseFloat(val);
-    if (isNaN(v)) {
-      valueEl.textContent = "--";
-      st.textContent = "--";
-      tr.textContent = "";
-      dl.textContent = "";
-      dl.className = "delta";
-      return;
-    }
-
-    // Smooth fade
-    valueEl.style.opacity = 0.7;
-    setTimeout(() => (valueEl.style.opacity = 1), 120);
-    valueEl.textContent = v.toFixed(2);
-
-    // Delta
-    const prev = prevData[id];
-    if (prev !== undefined) {
-      const diff = v - prev;
-      if (Math.abs(diff) < 0.005) {
-        dl.textContent = "";
-        dl.className = "delta";
-      } else if (diff > 0) {
-        dl.textContent = `▲+${diff.toFixed(2)}`;
-        dl.className = "delta up";
-      } else {
-        dl.textContent = `▼${diff.toFixed(2)}`;
-        dl.className = "delta down";
-      }
-    }
-    prevData[id] = v;
-
-    // Status
-    const inRange = (x, [a, b]) => x >= a && x <= b;
-    if (inRange(v, good)) {
-      st.textContent = "Good";
-      st.className = "status good";
-    } else if (inRange(v, fair)) {
-      st.textContent = "Fair";
-      st.className = "status fair";
-    } else {
-      st.textContent = "Poor";
-      st.className = "status poor";
-    }
-
-    // Trend arrow
-    if (prev !== undefined) {
-      if (v > prev) {
-        tr.textContent = "🔼";
-        tr.className = "trend up";
-      } else if (v < prev) {
-        tr.textContent = "🔽";
-        tr.className = "trend down";
-      } else {
-        tr.textContent = "⭯";
-        tr.className = "trend";
-      }
-    }
+    if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
+    if (minutes > 0) return `${minutes}m ${seconds}s`;
+    return `${seconds}s`;
   }
 
-  /* === SUMMARY BAR === */
-  function updateSummary(current, hist) {
-    const q = {
-      ph: [6.5, 8.5],
-      turbidity: [0, 5],
-      temperature: [20, 28],
-      tds: [0, 500],
-      conductivity: [0, 1500],
-    };
-    let goodCount = 0, total = 0;
-    for (const [k, [lo, hi]] of Object.entries(q)) {
-      const v = current[k];
-      if (v != null) {
-        total++;
-        if (v >= lo && v <= hi) goodCount++;
-      }
-    }
-    const ratio = total ? goodCount / total : 0;
-    const quality = document.getElementById("overall-quality");
-    if (ratio >= 0.8) { quality.textContent = "Good"; quality.className = "good"; }
-    else if (ratio >= 0.5) { quality.textContent = "Fair"; quality.className = "fair"; }
-    else { quality.textContent = "Poor"; quality.className = "poor"; }
-
-    document.getElementById("last-updated").textContent = new Date().toLocaleTimeString();
-    document.getElementById("data-count").textContent = hist.length;
+  // === UPTIME COUNTER ===
+  function startUptimeCounter() {
+    if (uptimeTimer) clearInterval(uptimeTimer);
+    uptimeTimer = setInterval(() => {
+      const elapsed = Date.now() - uptimeStart;
+      document.getElementById("uptime").textContent = formatUptime(elapsed);
+    }, 1000);
   }
 
-  /* === COLOR HELPERS === */
+  // === CHART COLOR HELPERS ===
   function getTextColor() {
     return document.body.classList.contains("light") ? "#222" : "#c5c6c7";
   }
@@ -138,32 +79,73 @@ document.addEventListener("DOMContentLoaded", () => {
       : "rgba(255,255,255,0.05)";
   }
 
-  /* === CHART OPTIONS === */
+  // === CARD UPDATE ===
+  function updateCard(id, val, statusId, trendId, deltaId, good, fair) {
+    const valueEl = document.getElementById(id + "-val");
+    const st = document.getElementById(statusId);
+    const tr = document.getElementById(trendId);
+    const dl = document.getElementById(deltaId);
+    const card = valueEl?.closest(".card");
+    if (!valueEl || !st || !tr || !dl || !card) return;
+
+    const v = parseFloat(val);
+    if (isNaN(v)) return;
+
+    const prev = prevData[id];
+    valueEl.textContent = v.toFixed(2);
+    if (prev !== undefined) {
+      const diff = v - prev;
+      if (Math.abs(diff) < 0.01) {
+        dl.textContent = "";
+        tr.textContent = "⭯";
+      } else if (diff > 0) {
+        dl.textContent = `▲+${diff.toFixed(2)}`;
+        tr.textContent = "🔼";
+      } else {
+        dl.textContent = `▼${diff.toFixed(2)}`;
+        tr.textContent = "🔽";
+      }
+    }
+    prevData[id] = v;
+
+    const inRange = (x, [a, b]) => x >= a && x <= b;
+    card.classList.remove("good", "fair", "poor");
+    if (inRange(v, good)) {
+      st.textContent = "Good";
+      st.className = "status good";
+      card.classList.add("good");
+    } else if (inRange(v, fair)) {
+      st.textContent = "Fair";
+      st.className = "status fair";
+      card.classList.add("fair");
+    } else {
+      st.textContent = "Poor";
+      st.className = "status poor";
+      card.classList.add("poor");
+    }
+  }
+
+  // === CHART OPTIONS ===
   function chartOptions() {
     return {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      elements: {
-        point: { radius: 3, hoverRadius: 5 }, // dots are visible
-      },
+      elements: { point: { radius: 3 } },
       scales: {
         x: {
           type: "time",
-          time: { unit: "second" },
+          time: { unit: "minute" },
           ticks: { color: getTextColor() },
           grid: { color: getGridColor() },
         },
-        y: {
-          ticks: { color: getTextColor() },
-          grid: { color: getGridColor() },
-        },
+        y: { ticks: { color: getTextColor() }, grid: { color: getGridColor() } },
       },
       plugins: { legend: { labels: { color: getTextColor() } } },
     };
   }
 
-  /* === BUILD CHARTS === */
+  // === BUILD CHARTS ===
   function buildCharts(historyData, current) {
     const smallCtx = document.getElementById("smallChart").getContext("2d");
     window.smallChart = new Chart(smallCtx, {
@@ -203,12 +185,18 @@ document.addEventListener("DOMContentLoaded", () => {
         indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
-        animation: false,
         scales: {
-          x: { ticks: { color: getTextColor() }, grid: { color: getGridColor() } },
+          x: {
+            ticks: {
+              color: getTextColor(),
+              callback: (v) => v + "%",
+            },
+            grid: { color: getGridColor() },
+            min: 0,
+            max: 150,
+          },
           y: { ticks: { color: getTextColor() }, grid: { color: getGridColor() } },
         },
-        plugins: { legend: { labels: { color: getTextColor() } } },
       },
     });
 
@@ -220,24 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
           { label: "TDS vs Conductivity", data: [], backgroundColor: "#66fcf1" },
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        scales: {
-          x: {
-            title: { display: true, text: "TDS (ppm)", color: getTextColor() },
-            ticks: { color: getTextColor() },
-            grid: { color: getGridColor() },
-          },
-          y: {
-            title: { display: true, text: "Conductivity (µS/cm)", color: getTextColor() },
-            ticks: { color: getTextColor() },
-            grid: { color: getGridColor() },
-          },
-        },
-        plugins: { legend: { labels: { color: getTextColor() } } },
-      },
+      options: chartOptions(),
     });
 
     history = historyData;
@@ -245,26 +216,22 @@ document.addEventListener("DOMContentLoaded", () => {
     applyCurrent(current);
   }
 
-  /* === APPLY HISTORY (initial paint) === */
-  function applyHistory(historyData) {
-    const toTime = (s) => new Date(s.timestamp);
-    const recent = historyData.slice(-MAX_POINTS);
+  function applyHistory(hist) {
+    const toTime = (t) => new Date(t.timestamp);
+    const recent = hist.slice(-MAX_POINTS);
 
-    smallChart.data.datasets[0].data = recent.map(h => ({ x: toTime(h), y: h.ph }));
-    smallChart.data.datasets[1].data = recent.map(h => ({ x: toTime(h), y: h.turbidity }));
-    smallChart.data.datasets[2].data = recent.map(h => ({ x: toTime(h), y: h.temperature }));
-
-    largeChart.data.datasets[0].data = recent.map(h => ({ x: toTime(h), y: h.tds }));
-    largeChart.data.datasets[1].data = recent.map(h => ({ x: toTime(h), y: h.conductivity }));
-
-    scatterChart.data.datasets[0].data = recent.map(h => ({ x: h.tds, y: h.conductivity }));
+    smallChart.data.datasets[0].data = recent.map((h) => ({ x: toTime(h), y: h.ph }));
+    smallChart.data.datasets[1].data = recent.map((h) => ({ x: toTime(h), y: h.turbidity }));
+    smallChart.data.datasets[2].data = recent.map((h) => ({ x: toTime(h), y: h.temperature }));
+    largeChart.data.datasets[0].data = recent.map((h) => ({ x: toTime(h), y: h.tds }));
+    largeChart.data.datasets[1].data = recent.map((h) => ({ x: toTime(h), y: h.conductivity }));
+    scatterChart.data.datasets[0].data = recent.map((h) => ({ x: h.tds, y: h.conductivity }));
 
     smallChart.update("none");
     largeChart.update("none");
     scatterChart.update("none");
   }
 
-  /* === APPLY CURRENT (cards + bar) === */
   function applyCurrent(d) {
     updateCard("ph", d.ph, "ph-status", "ph-trend", "ph-delta", [6.5, 8.5], [5.5, 9.5]);
     updateCard("turbidity", d.turbidity, "turbidity-status", "turbidity-trend", "turbidity-delta", [0, 5], [5, 10]);
@@ -272,65 +239,151 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCard("tds", d.tds, "tds-status", "tds-trend", "tds-delta", [0, 500], [500, 1000]);
     updateCard("conductivity", d.conductivity, "cond-status", "conductivity-trend", "conductivity-delta", [0, 1500], [1500, 3000]);
 
-    barChart.data.datasets[0].data = [
-      (d.turbidity / 5) * 100,
-      (d.ph / 7.5) * 100,
-      (d.temperature / 25) * 100,
-      (d.tds / 500) * 100,
-      (d.conductivity / 1000) * 100,
-    ];
+    const idealRanges = {
+      turbidity: [0, 5],
+      ph: [6.5, 8.5],
+      temperature: [20, 28],
+      tds: [0, 500],
+      conductivity: [0, 1500],
+    };
+
+    const vals = [d.turbidity, d.ph, d.temperature, d.tds, d.conductivity];
+    const ratios = Object.keys(idealRanges).map((k, i) => {
+      const [lo, hi] = idealRanges[k];
+      const val = vals[i];
+      const mid = (lo + hi) / 2;
+      const range = hi - lo;
+      if (val < lo) return 100 + ((mid - val) / range) * 50;
+      if (val > hi) return Math.max(0, 100 - ((val - hi) / range) * 50);
+      return 100 - Math.abs(((val - mid) / range) * 100);
+    });
+
+    barChart.data.datasets[0].data = ratios;
     barChart.update("none");
 
-    updateSummary(d, history);
+    const overallScore = Math.min(150, ratios.reduce((a, b) => a + b, 0) / ratios.length);
+    let condition = "Poor";
+    if (overallScore >= 80) condition = "Good";
+    else if (overallScore >= 50) condition = "Fair";
+
+    overallQualityEl.textContent = `${overallScore.toFixed(1)} (${condition})`;
+    overallQualityEl.className = "";
+    overallQualityEl.classList.add(condition.toLowerCase());
+
+    document.getElementById("last-updated").textContent = new Date().toLocaleTimeString();
+    document.getElementById("data-count").textContent = smallChart.data.datasets[0].data.length;
   }
 
-  /* === INITIALIZE === */
+  // === POLL LOOP ===
+async function pollLoop() {
+  const curr = await getJSON("data/data.json");
+  if (!curr) {
+    missed++;
+    led.className = "led led-red";
+    statusText.textContent = "Error";
+    return;
+  }
+
+  led.className = "led led-green";
+  statusText.textContent = "Live";
+
+  // ✅ Persistent counter that continues even through semi-refreshes
+  let storedCount = Number(localStorage.getItem("totalUpdates")) || 0;
+  storedCount += 1;
+  localStorage.setItem("totalUpdates", storedCount);
+  totalUpdates = storedCount;
+
+  totalCadence += POLL_MS;
+
+  history.push(curr);
+  if (history.length > MAX_POINTS) history.shift();
+
+  applyCurrent(curr);
+  applyHistory(history);
+}
+
+// === INITIALIZE (fixed heartbeat) ===
+(async () => {
+  const hist = (await getJSON("data/history.json")) || [];
+  const curr = (await getJSON("data/data.json")) || hist.at(-1);
+  if (!curr) return;
+  buildCharts(hist, curr);
+  led.className = "led led-green";
+  statusText.textContent = "Live";
+  startUptimeCounter();
+
+  // ✅ Heartbeat: keep counting updates persistently every poll interval
+  const heartbeat = () => {
+    pollLoop().catch(() => {});
+  };
+  heartbeat(); // run once immediately
+  setInterval(heartbeat, POLL_MS);
+
+  document.getElementById("poll-ms-foot").textContent = POLL_MS / 1000;
+})();
+
+
+  // === Update System Stats Live ===
+  function updateSystemStatsUI() {
+    const simulatedMemory = (Math.random() * 80 + 20).toFixed(1);
+    const sysBox = document.querySelector(".system");
+    sysBox.innerHTML = `
+      <li><strong>Updates received:</strong> ${totalUpdates}</li>
+      <li><strong>Average cadence:</strong> ${(totalCadence / Math.max(totalUpdates, 1)).toFixed(0)} ms</li>
+      <li><strong>Session uptime:</strong> ${formatUptime(Date.now() - uptimeStart)}</li>
+      <li><strong>Missed intervals:</strong> ${missed}</li>
+      <li><strong>Memory usage (sim):</strong> ${simulatedMemory} MB</li>
+    `;
+  }
+  setInterval(updateSystemStatsUI, 1000);
+
+  // === INITIALIZE ===
   (async () => {
-    const historyData = (await getJSON("data/history.json")) || [];
-    const current = (await getJSON("data/data.json")) || historyData.at(-1);
-    if (!current) return console.warn("⚠️ No data yet — run update_data.py first");
-
-    buildCharts(historyData, current);
-
-    // Poll for live updates
-    setInterval(async () => {
-      const curr = await getJSON("data/data.json");
-      if (!curr) return;
-
-      history.push(curr);
-      if (history.length > MAX_POINTS) history.shift();
-
-      applyCurrent(curr);
-
-      const now = new Date(curr.timestamp);
-
-      // Append new points to charts
-      smallChart.data.datasets[0].data.push({ x: now, y: curr.ph });
-      smallChart.data.datasets[1].data.push({ x: now, y: curr.turbidity });
-      smallChart.data.datasets[2].data.push({ x: now, y: curr.temperature });
-      trimData(smallChart);
-
-      largeChart.data.datasets[0].data.push({ x: now, y: curr.tds });
-      largeChart.data.datasets[1].data.push({ x: now, y: curr.conductivity });
-      trimData(largeChart);
-
-      scatterChart.data.datasets[0].data.push({ x: curr.tds, y: curr.conductivity });
-      trimData(scatterChart);
-
-      smallChart.update("none");
-      largeChart.update("none");
-      scatterChart.update("none");
-    }, POLL_MS);
+    const hist = (await getJSON("data/history.json")) || [];
+    const curr = (await getJSON("data/data.json")) || hist.at(-1);
+    if (!curr) return;
+    buildCharts(hist, curr);
+    led.className = "led led-green";
+    statusText.textContent = "Live";
+    pollInterval = setInterval(pollLoop, POLL_MS);
+    startUptimeCounter();
+    document.getElementById("poll-ms-foot").textContent = POLL_MS / 1000;
   })();
 
-  /* === Helper: Trim old data === */
-  function trimData(chart) {
-    chart.data.datasets.forEach((ds) => {
-      while (ds.data.length > MAX_POINTS) ds.data.shift();
-    });
-  }
+  // === MODALS ===
+  const infoModal = document.getElementById("info-modal");
+  const settingsModal = document.getElementById("settings-modal");
+  infoBtn.onclick = () => (infoModal.style.display = "flex");
+  document.querySelector('[data-close="info"]').onclick = () =>
+    (infoModal.style.display = "none");
+  settingsBtn.onclick = () => {
+    document.getElementById("poll-ms").value = POLL_MS;
+    settingsModal.style.display = "flex";
+  };
+  document.querySelector('[data-close="settings"]').onclick = () =>
+    (settingsModal.style.display = "none");
 
-  /* === Update chart colors when theme changes === */
+  document.getElementById("settings-save").onclick = () => {
+    const newPoll = parseInt(document.getElementById("poll-ms").value);
+    if (!isNaN(newPoll) && newPoll >= 1000) {
+      POLL_MS = newPoll;
+      clearInterval(pollInterval);
+      pollInterval = setInterval(pollLoop, POLL_MS);
+      document.getElementById("poll-ms-foot").textContent = POLL_MS / 1000;
+    }
+    settingsModal.style.display = "none";
+  };
+
+  exportBtn.onclick = () => {
+    const blob = new Blob([JSON.stringify(history, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `dashboard_export_${new Date().toISOString()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   function updateChartColors() {
     const color = getTextColor();
     const grid = getGridColor();
@@ -339,19 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
       chart.options.scales.y.ticks.color = color;
       chart.options.scales.x.grid.color = grid;
       chart.options.scales.y.grid.color = grid;
-      if (chart.options.plugins.legend)
-        chart.options.plugins.legend.labels.color = color;
       chart.update("none");
     });
   }
-
-  /* === Info Modal === */
-  const modal = document.getElementById("info-modal");
-  const btn = document.getElementById("info-btn");
-  const span = document.getElementsByClassName("close")[0];
-  btn.onclick = () => (modal.style.display = "block");
-  span.onclick = () => (modal.style.display = "none");
-  window.onclick = (event) => {
-    if (event.target == modal) modal.style.display = "none";
-  };
 });

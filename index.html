@@ -2,90 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Water Quality Sensor Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-</head>
 
+</head>
 <body>
   <header>
+  <div class="header-wrap">
     <h1>Water Quality Sensor Dashboard</h1>
     <p>Live simulated readings for five key parameters</p>
-  </header>
-
-  <!-- Fixed Summary Bar -->
-  <div id="summary-bar">
-    <div class="summary-item"><strong>Overall Quality:</strong> <span id="overall-quality">--</span></div>
-    <div class="summary-item"><strong>Last Updated:</strong> <span id="last-updated">--</span></div>
-    <div class="summary-item"><strong>Data Points:</strong> <span id="data-count">--</span></div>
-    <div class="buttons">
-      <button id="info-btn">ℹ️ Info</button>
-      <button id="theme-btn">Toggle Theme (Dark)</button>
-    </div>
   </div>
 
-  <!-- Sensor Data Cards -->
+  <img src="OrangeCircleLogo.png" alt="CEDC Logo" class="header-logo">
+</header>
+
+
+  <!-- Summary / Controls -->
+  <div id="summary-bar">
+    <div class="summary-item">
+      <strong>Overall Quality:</strong>
+      <span id="overall-quality">--</span>
+    </div>
+    <div class="summary-item"><strong>Last Updated:</strong> <span id="last-updated">--</span></div>
+    <div class="summary-item"><strong>Data Points:</strong> <span id="data-count">--</span></div>
+
+    <div class="summary-item status-dot">
+      <span id="status-led" class="led led-gray"></span>
+      <span id="status-text">Initializing…</span>
+    </div>
+
+    <div class="buttons">
+      <button id="export-btn">Export CSV</button>
+      <button id="info-btn" aria-label="Open information modal">Info</button>
+      <button id="settings-btn">Settings</button>
+      <button id="theme-btn">Toggle Theme (Dark)</button>
+</div>
+
+  </div>
+
+  <!-- Stat cards -->
   <section id="data-cards">
-    <div class="card">
-      <h2>pH</h2>
-      <p><span id="ph-val">--</span><span class="delta" id="ph-delta"></span></p>
-      <span class="trend" id="ph-trend"></span>
-      <span id="ph-status" class="status">--</span>
-    </div>
-
-    <div class="card">
-      <h2>Turbidity (NTU)</h2>
-      <p><span id="turbidity-val">--</span><span class="delta" id="turbidity-delta"></span></p>
-      <span class="trend" id="turbidity-trend"></span>
-      <span id="turbidity-status" class="status">--</span>
-    </div>
-
-    <div class="card">
-      <h2>Temperature (°C)</h2>
-      <p><span id="temperature-val">--</span><span class="delta" id="temperature-delta"></span></p>
-      <span class="trend" id="temperature-trend"></span>
-      <span id="temp-status" class="status">--</span>
-    </div>
-
-    <div class="card">
-      <h2>TDS (ppm)</h2>
-      <p><span id="tds-val">--</span><span class="delta" id="tds-delta"></span></p>
-      <span class="trend" id="tds-trend"></span>
-      <span id="tds-status" class="status">--</span>
-    </div>
-
-    <div class="card">
-      <h2>Conductivity (µS/cm)</h2>
-      <p><span id="conductivity-val">--</span><span class="delta" id="conductivity-delta"></span></p>
-      <span class="trend" id="conductivity-trend"></span>
-      <span id="cond-status" class="status">--</span>
-    </div>
+    <div class="card"><h2>pH</h2><p><span id="ph-val">--</span><span class="delta" id="ph-delta"></span></p><span class="trend" id="ph-trend"></span><span id="ph-status" class="status">--</span></div>
+    <div class="card"><h2>Turbidity (NTU)</h2><p><span id="turbidity-val">--</span><span class="delta" id="turbidity-delta"></span></p><span class="trend" id="turbidity-trend"></span><span id="turbidity-status" class="status">--</span></div>
+    <div class="card"><h2>Temperature (°C)</h2><p><span id="temperature-val">--</span><span class="delta" id="temperature-delta"></span></p><span class="trend" id="temperature-trend"></span><span id="temp-status" class="status">--</span></div>
+    <div class="card"><h2>TDS (ppm)</h2><p><span id="tds-val">--</span><span class="delta" id="tds-delta"></span></p><span class="trend" id="tds-trend"></span><span id="tds-status" class="status">--</span></div>
+    <div class="card"><h2>Conductivity (µS/cm)</h2><p><span id="conductivity-val">--</span><span class="delta" id="conductivity-delta"></span></p><span class="trend" id="conductivity-trend"></span><span id="cond-status" class="status">--</span></div>
   </section>
 
-  <!-- Charts Section -->
+  <!-- Charts -->
   <section id="charts">
     <div class="chart-box"><h3>Small Range Data (pH, Turbidity, Temperature)</h3><canvas id="smallChart"></canvas></div>
     <div class="chart-box"><h3>Large Range Data (TDS, Conductivity)</h3><canvas id="largeChart"></canvas></div>
     <div class="chart-box"><h3>Current vs Ideal %</h3><canvas id="barChart"></canvas></div>
     <div class="chart-box"><h3>TDS vs Conductivity</h3><canvas id="scatterChart"></canvas></div>
+    <div class="chart-box"><h3>Alerts</h3><div id="alerts" class="alerts"></div></div>
+    <div class="chart-box"><h3>System Summary</h3>
+      <ul class="system">
+        <li>Update cadence: <span id="cadence">–</span></li>
+        <li>Uptime (session): <span id="uptime">0m</span></li>
+        <li>Missed intervals: <span id="missed">0</span></li>
+      </ul>
+    </div>
   </section>
 
-  <footer><p>ESP32 ➜ Excel ➜ JSON ➜ Dashboard • Updates every 10s</p></footer>
+  <footer>
+    <p>By Clemson Engineers for Developing Communities 2025 </p>
+  </footer>
 
   <!-- Info Modal -->
-  <div id="info-modal" class="modal">
+  <div id="info-modal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" data-close="info">&times;</span>
       <h2>Parameter Information</h2>
       <ul>
-        <li><strong>pH:</strong> Measures water acidity or alkalinity (6.5–8.5 ideal)</li>
-        <li><strong>Turbidity:</strong> Clarity of water (0–5 NTU ideal)</li>
-        <li><strong>Temperature:</strong> Water temp for aquatic health (20–28°C ideal)</li>
+        <li><strong>pH:</strong> Water acidity or alkalinity (6.5–8.5 ideal)</li>
+        <li><strong>Turbidity:</strong> Water clarity (0–5 NTU ideal)</li>
+        <li><strong>Temperature:</strong> Aquatic health (20–28°C ideal)</li>
         <li><strong>TDS:</strong> Total dissolved solids (0–500 ppm ideal)</li>
         <li><strong>Conductivity:</strong> Ionic content (0–1500 µS/cm ideal)</li>
       </ul>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <span class="close" data-close="settings">&times;</span>
+      <h2>Settings</h2>
+      <div class="settings-grid">
+        <label>Poll Interval (ms)
+          <input id="poll-ms" type="number" min="1000" step="500"/>
+        </label>
+        <label>Ideal pH (low–high)
+          <input id="ph-ideal" placeholder="6.5,8.5"/>
+        </label>
+        <label>Ideal Turbidity (NTU)
+          <input id="turbidity-ideal" placeholder="0,5"/>
+        </label>
+        <label>Ideal Temperature (°C)
+          <input id="temperature-ideal" placeholder="20,28"/>
+        </label>
+        <label>Ideal TDS (ppm)
+          <input id="tds-ideal" placeholder="0,500"/>
+        </label>
+        <label>Ideal Conductivity (µS/cm)
+          <input id="conductivity-ideal" placeholder="0,1500"/>
+        </label>
+      </div>
+      <div class="settings-actions">
+        <button id="settings-save">Save</button>
+      </div>
     </div>
   </div>
 
