@@ -1,12 +1,23 @@
 import time
 import pandas as pd
 import datetime
+import os                          # <--- NEW
+from dotenv import load_dotenv     # <--- NEW
 from pathlib import Path
 from supabase import create_client, Client
 
+# Load the secrets from the .env file
+load_dotenv()                      # <--- NEW
+
 # --- CONFIGURATION ---
-SUPABASE_URL = "https://xvozkyiqntxxlpyjrhou.supabase.co"
-SUPABASE_KEY = "sb_secret_i9rKER7sJnp6ytkqCZfn3Q_dndYtW38" # Use the SERVICE_ROLE key here
+# Now we fetch them from the system environment
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+# Check if they loaded correctly (sanity check)
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print("❌ Error: Supabase keys not found. Did you create the .env file?")
+    exit()
 
 EXCEL_PATH = Path("data/water_data.xlsx")
 SLEEP_SEC = 4
