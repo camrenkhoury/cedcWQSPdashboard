@@ -24,6 +24,148 @@ document.addEventListener("DOMContentLoaded", () => {
   let totalCadence = 0;
   let uptimeTimer = null;
 
+  
+  let baselineBuffer = [];
+const BASELINE_SIZE = 10;
+
+function updateBaseline(d) {
+  baselineBuffer.push(d);
+  if (baselineBuffer.length > BASELINE_SIZE) baselineBuffer.shift();
+}
+
+function getBaseline() {
+  if (baselineBuffer.length === 0) return null;
+  const avg = (key) => baselineBuffer.reduce((s, r) => s + (r[key] || 0), 0) / baselineBuffer.length;
+  return {
+    ph:          avg("ph"),
+    temperature: avg("temperature"),
+    turbidity:   avg("turbidity"),
+    ecTds:       avg("tds"),
+    conductivity:avg("conductivity")
+  };
+}
+
+const THRESHOLDS = {
+  ph:          { inc: 0.3,  dec: 0.3  },
+  temperature: { inc: 2,    dec: 2    },
+  turbidity:   { inc: 1.0,  dec: 1.0  },
+  ecTds:       { inc: 50,   dec: 50   },
+  conductivity:{ inc: 80,   dec: 80   }
+};
+
+function classify(current, baseline, key) {
+  const delta = current - baseline;
+  const t = THRESHOLDS[key];
+  if (delta >= t.inc)  return "increase";
+  if (delta <= -t.dec) return "decrease";
+  return "no change";
+}
+
+function checkAlerts(current, baseline) {
+  const alerts = [];
+  if (!baseline) return alerts;
+
+  const ph   = classify(current.ph,          baseline.ph,          "ph");
+  const temp = classify(current.temperature, baseline.temperature, "temperature");
+  const turb = classify(current.turbidity,   baseline.turbidity,   "turbidity");
+  const ec   = classify(current.tds,         baseline.ecTds,       "ecTds");
+  const cond = classify(current.conductivity,baseline.conductivity,"conductivity");
+
+  // C1: Turbidity + TDS/Conductivity rising = possible contamination
+  if (turb === "increase" && (ec === "increase" || cond === "increase")) {
+    alerts.push({ level: "critical", case: "C1",
+      title: "Possible Intrusion / Organic Load",
+      msg: "Turbidity is rising alongside TDS/Conductivity. Possible contamination consuming disinfectant." });
+  }
+
+  // C2: TDS + Conductivity spike = ionic contamination
+  if (ec === "increase" && cond === "increase" && turb === "no change" && ph === "no change") {
+    alerts.push({ level: "critical", case: "C2",
+      title: "Possible Ionic / Source Contamination",
+      msg: "TDS and Conductivity are rising with no other changes. Ionic or source contamination likely." });
+  }
+
+  // C4: Temp + turbidity rising = disinfectant decay risk
+  if (temp === "increase" && turb === "increase") {
+    alerts.push({ level: "critical", case: "C4",
+      title: "Heat & Turbidity Rising — Disinfectant Decay Risk",
+      msg: "Temperature and turbidity are both rising. High risk of rapid chlorine decay." });
+  }
+
+  // W1: pH rise = reduced chlorine effectiveness
+  if (ph === "increase" && temp === "no change" && turb === "no change" && ec === "no change") {
+    alerts.push({ level: "warning", case: "W1",
+      title: "pH Rise — Reduced Chlorine Effectiveness",
+      msg: "pH is rising. Higher pH reduces free chlorine effectiveness. Monitor disinfection closely." });
+  }
+
+  // W2: Temperature rise alone = disinfectant decay
+  if (temp === "increase" && ph === "no change" && turb === "no change" && ec === "no change") {
+    alerts.push({ level: "warning", case: "W2",
+      title: "Temperature Rising — Disinfectant Decay Likely",
+      msg: "Temperature is rising with no other changes. Warm water accelerates chlorine decay." });
+  }
+
+  // W3: TDS + conductivity dropping = dilution or source change
+  if (ec === "decrease" && cond === "decrease" && ph === "no change" && turb === "no change") {
+    alerts.push({ level: "warning", case: "W3",
+      title: "TDS & Conductivity Dropping",
+      msg: "TDS and conductivity are both decreasing. Possible source change or dilution event." });
+  }
+
+  // M1: Turbidity rise alone = possible flush
+  if (turb === "increase" && ph === "no change" && temp === "no change" && ec === "no change") {
+    alerts.push({ level: "monitor", case: "M1",
+      title: "Turbidity Rising — Possible Flush Event",
+      msg: "Turbidity is rising with no other parameter changes. Watch for further changes." });
+  }
+
+  // M2: pH drop alone = monitor
+  if (ph === "decrease" && temp === "no change" && turb === "no change" && ec === "no change") {
+    alerts.push({ level: "monitor", case: "M2",
+      title: "pH Dropping — Monitor",
+      msg: "pH is decreasing with no supporting changes. Monitor for persistence." });
+  }
+
+  return alerts;
+}
+
+function renderAlerts(alerts) {
+  const box = document.getElementById("alerts");
+  if (!box) return;
+
+  if (alerts.length === 0) {
+    box.innerHTML = `<div style="color:#15d18d; font-size:.85rem; padding:8px;">✅ All parameters within normal range.</div>`;
+    return;
+  }
+
+  const styles = {
+    critical: { bg: "rgba(255,92,92,0.12)",  border: "#ff5c5c", label: "🚨 CRITICAL" },
+    warning:  { bg: "rgba(255,179,71,0.12)", border: "#ffb347", label: "⚠️ WARNING"  },
+    monitor:  { bg: "rgba(0,170,255,0.10)",  border: "#00aaff", label: "ℹ️ MONITOR"  }
+  };
+
+  box.innerHTML = alerts.map(a => {
+    const s = styles[a.level] || styles.monitor;
+    return `
+      <div style="
+        background:${s.bg};
+        border-left:3px solid ${s.border};
+        padding:6px 10px;
+        margin:5px 0;
+        border-radius:6px;
+        font-size:.78rem;
+        line-height:1.5;
+      ">
+        <strong style="color:${s.border}">[${a.case}] ${s.label}</strong><br/>
+        <strong>${a.title}</strong><br/>
+        <span style="opacity:.85">${a.msg}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+
   // Safe UI Helpers
   const getEl = (id) => document.getElementById(id);
   const safeSetText = (id, text) => {
@@ -314,6 +456,10 @@ document.addEventListener("DOMContentLoaded", () => {
     safeSetText("last-updated", new Date().toLocaleTimeString());
     const count = (chartsReady && window.smallChart?.data?.labels?.length) || 0;
     safeSetText("data-count", count);
+    updateBaseline(d);
+    const baseline = getBaseline();
+    const alerts = checkAlerts(d, baseline);
+    renderAlerts(alerts);
   }
 
   function updateCard(id, val, statusId, trendId, deltaId, good, fair) {
